@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<title>Saief Alom</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link href='https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600;700;900&display=swap' rel='stylesheet'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/* ===== PRELOADER - 4 blinking dots ===== */
+#page-loader{position:fixed;top:0;left:0;bottom:0;right:0;background:#fff;z-index:99999;display:flex;align-items:center;justify-content:center;transition:opacity 0.5s ease-out;}
+#page-loader.hidden{opacity:0;pointer-events:none;}
+.dots-loader{display:flex;gap:14px;align-items:center;}
+.dots-loader span{display:block;width:18px;height:18px;border-radius:50%;animation:blink 1.2s infinite ease-in-out;}
+.dots-loader span:nth-child(1){animation-delay:0s;background:#25A7B0;}
+.dots-loader span:nth-child(2){animation-delay:0.2s;background:#6EE3E7;}
+.dots-loader span:nth-child(3){animation-delay:0.4s;background:#334959;}
+.dots-loader span:nth-child(4){animation-delay:0.6s;background:#205663;}
+@keyframes blink{0%,80%,100%{transform:scale(0.5);opacity:0.3;}40%{transform:scale(1.3);opacity:1;}}
+
+/* ===== RESET ===== */
+*{box-sizing:border-box;}
+html{font-size:10px;}
+body{font-family:Raleway,Arial,sans-serif;font-size:16px;font-weight:300;color:#6d6d6d;overflow-x:hidden;margin:0;padding:0;}
+h1,h2,h3,h4,h5,h6{font-weight:300;margin-top:20px;margin-bottom:10px;}
+p{margin:0 0 10px;}
+ul{margin-top:0;margin-bottom:10px;}
+a{color:#6EE3E7;text-decoration:none;}
+a:hover{text-decoration:underline;}
+img{max-width:100%;display:block;}
+article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block;}
+
+/* ===== GRID ===== */
+.container{margin:0 auto;padding:0 15px;max-width:1170px;}
+.row{margin:0 -15px;}
+.row:after,.row:before{display:table;content:" ";}
+.row:after{clear:both;}
+[class*=col-]{position:relative;min-height:1px;padding:0 15px;float:left;}
+.col-sm-4{width:33.33333%;}
+.col-sm-6{width:50%;}
+.col-sm-offset-2{margin-left:16.66667%;}
+.col-md-5{width:41.66667%;}
+.col-md-6{width:50%;}
+.col-md-offset-1{margin-left:8.33333%;}
+.text-center{text-align:center;}
+.text-right{text-align:right;}
+.text-left{text-align:left;}
+.lead{font-size:18px;font-weight:300;line-height:1.4;}
+.img-responsive{display:block;max-width:100%;height:auto;}
+
+/* ===== UTILITIES ===== */
+.no-decoration{list-style-type:none;padding:0;margin:0;}
+.mt-2{margin-top:2%;}
+.mt-5{margin-top:5%;}
+.big-text{font-size:56px;font-weight:300;line-height:60px;letter-spacing:0.01em;word-spacing:0.1em;text-transform:uppercase;}
+.section-title{margin-top:-20px;margin-bottom:80px;text-align:center;}
+.add-padding{padding-top:120px;padding-bottom:140px;}
+.add-padding2{padding-bottom:85px;}
+
+/* ===== COLORS ===== */
+.bg-color2{color:#fff;background:#6EE3E7;}
+.border-bottom-color2{border-bottom:7px solid #6EE3E7;}
+.border-top-color2{border-top:7px solid #6EE3E7;}
+.color4{color:#205663;}
+.white{color:white;}
+.color1 .service-icon{background:#25A7B0;}
+.color1 .service-icon:after{border:3px solid #25A7B0;}
+.color2 .service-icon{background:#6EE3E7;}
+.color2 .service-icon:after{border:3px solid #6EE3E7;}
+.color3 .service-icon{background:#334959;}
+.color3 .service-icon:after{border:3px solid #334959;}
+
+/* ===== BUTTONS ===== */
+.btn-color1{display:inline-block;padding:10px 28px;color:#fff;font-size:17px;font-weight:300;background:#25A7B0;border:none;border-radius:0;cursor:pointer;transition:opacity .2s;}
+.btn-color1:hover{opacity:0.85;text-decoration:none;color:#fff;}
+.btn-color1 .fa{margin-right:10px;}
+
+/* ===== NAVBAR ===== */
+#main-nav{position:fixed;top:0;right:0;left:0;z-index:1030;background:transparent;transition:background 0.3s ease-out,padding 0.3s;}
+#main-nav .inner{display:flex;align-items:center;justify-content:space-between;padding:14px 30px;transition:padding 0.4s;}
+#main-nav.scrolled{background:#fff;box-shadow:0 0 4px rgba(0,0,0,0.15);}
+#main-nav.scrolled .inner{padding:6px 30px;}
+
+.nav-brand{display:inline-flex;align-items:center;gap:10px;font-size:19px;font-weight:700;color:#fff;text-transform:uppercase;text-decoration:none;letter-spacing:0.05em;}
+#main-nav.scrolled .nav-brand{color:#205663;}
+
+.nav-links{display:flex;gap:4px;list-style:none;margin:0;padding:0;}
+.nav-links li a{padding:6px 10px;font-size:14px;font-weight:400;color:#fff;display:block;border-radius:4px;transition:color .2s;}
+#main-nav.scrolled .nav-links li a{color:#6d6d6d;}
+.nav-links li a:hover{color:#6EE3E7;text-decoration:none;}
+#main-nav.scrolled .nav-links li a:hover{color:#25A7B0;}
+
+.nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:4px;}
+.nav-toggle span{display:block;width:24px;height:3px;background:#fff;margin:5px 0;border-radius:2px;transition:background 0.2s;}
+#main-nav.scrolled .nav-toggle span{background:#334959;}
+
+/* ===== HERO ===== */
+#home{color:#fff;min-height:100vh;position:sticky;top:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a3a4a 0%,#205663 45%,#25A7B0 100%);z-index:1;}
+.hero-pattern{position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236EE3E7' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none;}
+.hero-content{text-align:center;position:relative;z-index:2;}
+.hero-content h1{margin:0;font-size:76px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;}
+.hero-content p{margin:10px 0 0;font-size:28px;font-weight:300;}
+
+/* ===== MAIN CONTENT (slides over sticky hero) ===== */
+#main-content{position:relative;z-index:10;}
+
+/* ===== ABOUT ===== */
+#about{padding-top:120px;padding-bottom:140px;background:#6EE3E7;color:#fff;}
+.polaroid{border:12px solid #fff;max-width:85%;box-shadow:3px 5px 8px rgba(0,0,0,0.4);transform:rotate(-5deg);}
+.connect-item{display:inline;margin-right:13%;}
+.connect-list{margin-top:10%;margin-left:12%;list-style:none;padding:0;}
+.connect-item a{color:#205663;transition:color 0.2s;}
+.connect-item a:hover{color:#fff;}
+.fa-4x{font-size:4em!important;}
+.fa-5x{font-size:5em!important;}
+
+/* ===== SKILLS ===== */
+#skills{background:#fff;padding-top:120px;padding-bottom:140px;}
+.service-item{text-align:center;}
+.service-item h3{margin-bottom:15px;font-size:20px;}
+.service-icon{position:relative;display:block;text-align:center;width:140px;height:140px;margin:20px auto 50px;border-radius:50%;font-size:54px;line-height:140px;background:#334959;color:#fff;transition:all 0.2s;}
+.service-icon:after{content:"";position:absolute;display:block;width:164px;height:164px;top:-12px;left:-12px;border:3px solid #334959;border-radius:50%;transition:all 0.2s;}
+.service-item:hover .fa{transform:rotate(360deg);transition:all 0.5s ease-out;}
+.service-item ul{text-align:left;list-style:disc;padding-left:28px;}
+.service-item ul li{padding:3px 0;font-size:15px;}
+
+/* ===== STRENGTHS ===== */
+#strengths{background:#6EE3E7;padding-top:120px;padding-bottom:85px;border-bottom:7px solid #6EE3E7;}
+.strength-list{padding-left:12%;color:#205663;}
+.strength-list ul{list-style:none;padding:0;}
+.strength-list li{font-size:28px;margin-bottom:8%;font-weight:700;}
+.strength-list i{margin-right:5%;}
+
+/* ===== PORTFOLIO ===== */
+#portfolio{padding:80px 0 100px;background:#f2fbfb;}
+#portfolio .port-title{font-size:52px;font-weight:300;text-transform:uppercase;color:#1f2c37;letter-spacing:0.05em;text-align:center;margin-bottom:50px;}
+
+/* Tab bar */
+.proj-tabs{display:flex;gap:12px;background:#fff;border-radius:50px;padding:14px 20px;width:fit-content;box-shadow:0 2px 12px rgba(0,0,0,0.08);margin-bottom:28px;}
+.proj-tab{padding:9px 26px;border-radius:50px;border:2px solid #6EE3E7;background:transparent;color:#25A7B0;font-family:Raleway,sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.25s;}
+.proj-tab.active{background:linear-gradient(135deg,#1a6e75,#25A7B0);color:#fff;border-color:transparent;box-shadow:0 4px 14px rgba(37,167,176,0.4);}
+.proj-tab:hover:not(.active){background:#e4f9f9;}
+
+/* Project panel */
+.proj-panel{display:none;}
+.proj-panel.active{display:block;}
+
+/* Card outer (teal border) */
+.proj-card-outer{background:#6EE3E7;border-radius:22px;padding:14px;box-shadow:0 10px 40px rgba(0,0,0,0.12);}
+
+/* Card inner */
+.proj-card{background:#16162a;border-radius:14px;display:flex;align-items:stretch;min-height:380px;overflow:hidden;position:relative;}
+
+/* Left side */
+.proj-left{flex:1;padding:44px 44px 36px;display:flex;flex-direction:column;justify-content:space-between;}
+.proj-name{font-size:50px;font-weight:900;color:#fff;line-height:1.05;text-transform:uppercase;margin:0 0 14px;}
+.proj-tagline{font-size:17px;color:rgba(255,255,255,0.55);font-weight:300;margin:0;}
+.proj-desc{font-size:14px;color:rgba(255,255,255,0.45);line-height:1.65;margin-top:18px;max-width:340px;}
+.proj-footer{display:flex;align-items:center;gap:10px;margin-top:auto;padding-top:28px;}
+.proj-footer .fa{color:rgba(255,255,255,0.4);font-size:18px;}
+.proj-footer span{color:rgba(255,255,255,0.4);font-size:13px;}
+
+/* Right side - image */
+.proj-right{width:45%;padding:20px 20px 20px 0;display:flex;align-items:center;justify-content:center;position:relative;}
+.proj-img{width:100%;height:300px;border-radius:14px;overflow:hidden;cursor:pointer;position:relative;background:#2a1a3a;transition:transform 0.3s,box-shadow 0.3s;}
+.proj-img:hover{transform:scale(1.02);box-shadow:0 14px 40px rgba(0,0,0,0.35);}
+.proj-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.proj-img .overlay{position:absolute;inset:0;background:rgba(37,167,176,0);display:flex;align-items:center;justify-content:center;transition:background 0.3s;border-radius:14px;}
+.proj-img:hover .overlay{background:rgba(37,167,176,0.22);}
+.proj-img .ext-icon{opacity:0;font-size:38px;color:#fff;transition:opacity 0.3s;}
+.proj-img:hover .ext-icon{opacity:1;}
+.proj-num{position:absolute;bottom:18px;right:24px;font-size:22px;font-weight:700;color:rgba(255,255,255,0.15);}
+
+/* coming soon card image area */
+.proj-img.no-click{cursor:default;}
+.proj-img.no-click:hover{transform:none;box-shadow:none;}
+.coming-soon-img{width:100%;height:300px;border-radius:14px;background:#1e1e3a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;}
+.coming-soon-img .fa{font-size:44px;color:rgba(110,227,231,0.25);}
+.coming-soon-img span{color:rgba(255,255,255,0.25);font-size:14px;letter-spacing:0.05em;}
+
+/* ===== CONTACT ===== */
+#contact{background:#fff;padding-top:120px;padding-bottom:140px;}
+#contact a{color:#334959;transition:color 0.3s;}
+#contact a:hover{color:#25A7B0;text-decoration:none;}
+.contact-email-label{margin-top:12px;font-size:15px;color:#6d6d6d;}
+
+/* ===== FOOTER ===== */
+#main-footer{padding:50px 0 40px;background:#1f2c37;}
+.social-links{list-style:none;margin:0 0 28px;padding:0;text-align:center;}
+.social-links li{display:inline-block;margin:0 6px;}
+.social-links li a{display:block;color:rgba(255,255,255,0.3);font-size:21px;width:50px;height:50px;line-height:50px;text-align:center;background:rgba(0,0,0,0.2);border-radius:50%;transition:all .3s;}
+.social-links li a:hover{color:#fff;background:#25A7B0;}
+
+/* ===== SCROLL ANIMATIONS ===== */
+.scrollimation.fade-in{opacity:0;transition:opacity 0.6s ease-out;}
+.scrollimation.fade-in.in{opacity:1;}
+.scrollimation.scale-in{opacity:0;transform:scale(0.5);transition:transform .6s cubic-bezier(.17,.89,.67,1.57),opacity .6s ease-out;}
+.scrollimation.scale-in.in{opacity:1;transform:scale(1);}
+.scrollimation.fade-right{opacity:0;transform:translateX(-80px);transition:transform .6s ease-out,opacity .6s ease-out;}
+.scrollimation.fade-right.in{opacity:1;transform:translateX(0);}
+.scrollimation.fade-left{opacity:0;transform:translateX(80px);transition:transform .6s ease-out,opacity .6s ease-out;}
+.scrollimation.fade-left.in{opacity:1;transform:translateX(0);}
+.scrollimation.fade-up{opacity:0;transform:translateY(70px);transition:transform .6s ease-out,opacity .6s ease-in-out;}
+.scrollimation.fade-up.in{opacity:1;transform:translateY(0);}
+.scrollimation.d1{transition-delay:.3s;}
+.scrollimation.d2{transition-delay:.6s;}
+.scrollimation.d3{transition-delay:.9s;}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:991px){
+  .big-text,.proj-name{font-size:40px;line-height:46px;}
+  .proj-card{flex-direction:column;}
+  .proj-right{width:100%;padding:0 20px 20px;}
+  .proj-img,.coming-soon-img{height:220px;}
+}
+@media(max-width:767px){
+  .add-padding{padding-top:60px;padding-bottom:60px;}
+  #about,#skills,#strengths,#contact{padding-top:60px;padding-bottom:60px;}
+  .big-text{font-size:32px;line-height:38px;}
+  #main-nav .inner{padding:10px 16px;}
+  .nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;flex-direction:column;padding:10px 0;box-shadow:0 4px 10px rgba(0,0,0,0.1);}
+  .nav-links.open{display:flex;}
+  .nav-links li a{color:#6d6d6d;padding:10px 24px;}
+  .nav-toggle{display:block;}
+  .hero-content h1{font-size:38px;}
+  .hero-content p{font-size:20px;}
+  .col-sm-6,.col-sm-4,.col-md-5,.col-md-6{width:100%;float:none;}
+  .col-sm-offset-2,.col-md-offset-1{margin-left:0;}
+  .polaroid{width:85%;max-width:400px;margin:0 auto 35px;}
+  .proj-tabs{flex-wrap:wrap;}
+  .proj-name{font-size:28px;}
+  .proj-left{padding:28px;}
+  #portfolio .port-title{font-size:36px;}
+}
+</style>
+</head>
+<body>
+
+<!-- PRELOADER -->
+<div id="page-loader">
+  <div class="dots-loader">
+    <span></span><span></span><span></span><span></span>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<div id="main-nav">
+  <div class="inner">
+    <a class="nav-brand" href="#home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="38" height="38" style="border-radius:8px;background:#334959;flex-shrink:0;">
+        <circle cx="40" cy="20" r="10" fill="#6EE3E7"/>
+        <path d="M20 72 Q20 46 40 46 Q60 46 60 72Z" fill="#6EE3E7"/>
+        <rect x="22" y="57" width="36" height="7" rx="3" fill="#25A7B0"/>
+        <line x1="22" y1="61" x2="11" y2="53" stroke="#6EE3E7" stroke-width="4" stroke-linecap="round"/>
+        <line x1="58" y1="61" x2="69" y2="53" stroke="#6EE3E7" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      Saief Alom
+    </a>
+    <button class="nav-toggle" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#about">About Me</a></li>
+      <li><a href="#skills">Attributes</a></li>
+      <li><a href="#strengths">Strengths + Skills</a></li>
+      <li><a href="#portfolio">Projects</a></li>
+      <li><a href="#contact">Contact Me</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- HERO (sticky — content slides over it on scroll) -->
+<header id="home">
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <h1>Saief Alom</h1>
+    <p>A Little Inert</p>
+  </div>
+</header>
+
+<!-- ALL CONTENT (z-index:10, slides over sticky hero) -->
+<div id="main-content">
+
+<!-- ABOUT -->
+<section id="about" class="bg-color2">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6 scrollimation fade-right d1">
+        <img class="img-responsive polaroid" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&q=80" alt="Saief Alom"/>
+      </div>
+      <div class="col-sm-6 scrollimation fade-left d3">
+        <p class="lead">My name is Saief Alom. I'm a student. I'm a bit curious and a tech enthusiast person.</p>
+        <p>I would love to think beyond the society.</p>
+        <h3 class="color4" style="font-weight:bold;margin-top:9%;font-size:36px">Lets Connect!</h3>
+        <div class="row">
+          <ul class="connect-list no-decoration">
+            <li class="connect-item"><a href="https://www.linkedin.com/in/saief-alom/" target="_blank"><i class="fa fa-linkedin-square fa-4x"></i></a></li>
+            <li class="connect-item"><a href="https://github.com/SAIEF911" target="_blank"><i class="fa fa-github fa-4x"></i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="add-padding">
+  <div class="container">
+    <h1 class="section-title big-text scrollimation fade-up">Attributes</h1>
+    <div class="row">
+      <!-- Languages BD -->
+      <div class="col-sm-4 service-item color3 scrollimation scale-in">
+        <div class="service-icon"><i class="fa fa-language"></i></div>
+        <h3>Languages</h3>
+        <ul class="text-left">
+          <li>বাংলা (Bangla)</li>
+          <li>English</li>
+          <li>Arabic</li>
+          <li>Hindi</li>
+          <li>Urdu</li>
+        </ul>
+      </div>
+      <!-- Multimedia -->
+      <div class="col-sm-4 service-item color1 scrollimation scale-in d1">
+        <div class="service-icon"><i class="fa fa-desktop"></i></div>
+        <h3>Multimedia</h3>
+        <ul class="text-left">
+          <li>Canva</li>
+          <li>Photoshop</li>
+          <li>Flash</li>
+          <li>Director</li>
+          <li>Pictochart</li>
+          <li>Blender</li>
+        </ul>
+      </div>
+      <!-- Databases -->
+      <div class="col-sm-4 service-item color2 scrollimation scale-in d2">
+        <div class="service-icon"><i class="fa fa-database"></i></div>
+        <h3>Databases</h3>
+        <ul class="text-left">
+          <li>MongoDB</li>
+          <li>MySQL</li>
+          <li>PostgreSQL</li>
+          <li>SQLite</li>
+          <li>NoSQL</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <!-- Libraries -->
+      <div class="col-sm-offset-2 col-sm-4 service-item color3 scrollimation scale-in">
+        <div class="service-icon"><i class="fa fa-book"></i></div>
+        <h3>Libraries</h3>
+        <ul class="text-left">
+          <li>Oxford Dictionary</li>
+          <li>Bangla Dictionary</li>
+        </ul>
+      </div>
+      <!-- Additional -->
+      <div class="col-sm-4 service-item color2 scrollimation scale-in d1">
+        <div class="service-icon"><i class="fa fa-info-circle"></i></div>
+        <h3>Additional</h3>
+        <ul class="text-left">
+          <li>GitHub</li>
+          <li>GIMP</li>
+          <li>Visual Studio</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STRENGTHS -->
+<section id="strengths" class="add-padding add-padding2 border-bottom-color2">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6 col-md-6 mt-5 text-left scrollimation fade-up d1">
+        <h2 class="big-text color4">Strengths<br/>+ Skills</h2>
+        <br>
+        <p class="lead white">My previous experiences helped develop skills that can add value to your team and company</p>
+      </div>
+      <div class="col-sm-6 col-md-6">
+        <div class="strength-list">
+          <ul>
+            <li class="scrollimation fade-up"><i class="fa fa-puzzle-piece fa-2x"></i>Problem Solving</li>
+            <li class="scrollimation fade-up white"><i class="fa fa-cogs fa-2x"></i>Management</li>
+            <li class="scrollimation fade-up"><i class="fa fa-users fa-2x"></i>Adaptability</li>
+            <li class="scrollimation fade-up white"><i class="fa fa-cubes fa-2x"></i>Multi-Tasking</li>
+            <li class="scrollimation fade-up"><i class="fa fa-comments-o fa-2x"></i>Communication</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="container">
+    <h1 class="port-title scrollimation fade-in">MY PROJECTS</h1>
+
+    <!-- Tabs -->
+    <div class="proj-tabs scrollimation fade-up">
+      <button class="proj-tab active" onclick="switchProj(0,this)">Project - 01</button>
+      <button class="proj-tab" onclick="switchProj(1,this)">Project - 02</button>
+      <button class="proj-tab" onclick="switchProj(2,this)">Project - 03</button>
+    </div>
+
+    <!-- Project 01: The Bheramara Post -->
+    <div class="proj-panel active" id="proj-0">
+      <div class="proj-card-outer scrollimation fade-up d1">
+        <div class="proj-card">
+          <div class="proj-left">
+            <div>
+              <h2 class="proj-name">The Bheramara<br/>Post</h2>
+              <p class="proj-tagline">Let's unfold</p>
+              <p class="proj-desc">A local news and media platform for the people of Bheramara. Covering current events, community stories, and local voices with a fresh digital perspective.</p>
+            </div>
+            <div class="proj-footer">
+              <i class="fa fa-globe"></i>
+              <span>The Bheramara Post</span>
+            </div>
+          </div>
+          <div class="proj-right">
+            <div class="proj-img" onclick="window.open('https://saief911.github.io/greg/#','_blank')">
+              <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=700&q=80" alt="Bheramara Post">
+              <div class="overlay"><i class="fa fa-external-link ext-icon"></i></div>
+            </div>
+            <div class="proj-num">01</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 02 -->
+    <div class="proj-panel" id="proj-1">
+      <div class="proj-card-outer scrollimation fade-up d1">
+        <div class="proj-card">
+          <div class="proj-left">
+            <div>
+              <h2 class="proj-name">Project<br/>Two</h2>
+              <p class="proj-tagline">Coming Soon</p>
+              <p class="proj-desc">Details about this project will be added soon. Stay tuned for exciting updates on this new venture.</p>
+            </div>
+            <div class="proj-footer">
+              <i class="fa fa-globe"></i><span>Saief Alom</span>
+            </div>
+          </div>
+          <div class="proj-right">
+            <div class="coming-soon-img">
+              <i class="fa fa-clock-o"></i>
+              <span>COMING SOON</span>
+            </div>
+            <div class="proj-num">02</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 03 -->
+    <div class="proj-panel" id="proj-2">
+      <div class="proj-card-outer scrollimation fade-up d1">
+        <div class="proj-card">
+          <div class="proj-left">
+            <div>
+              <h2 class="proj-name">Project<br/>Three</h2>
+              <p class="proj-tagline">Coming Soon</p>
+              <p class="proj-desc">Details about this project will be added soon. Stay tuned for exciting updates on this new venture.</p>
+            </div>
+            <div class="proj-footer">
+              <i class="fa fa-globe"></i><span>Saief Alom</span>
+            </div>
+          </div>
+          <div class="proj-right">
+            <div class="coming-soon-img">
+              <i class="fa fa-clock-o"></i>
+              <span>COMING SOON</span>
+            </div>
+            <div class="proj-num">03</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="add-padding">
+  <div class="container text-center">
+    <div class="row">
+      <div class="col-sm-6 col-md-5 text-right scrollimation fade-up d1">
+        <h1 class="big-text">Contact Me!</h1>
+        <p class="lead">I'm happy to answer any questions you might have. I look forward to connecting with you!</p>
+      </div>
+      <div class="col-md-offset-1 col-sm-6 scrollimation fade-left d3" style="padding-top:28px;">
+        <a href="mailto:saiefsara5@gmail.com?subject=Portfolio">
+          <i class="fa fa-envelope-square fa-5x" style="color:#25A7B0;"></i>
+        </a>
+        <p class="contact-email-label">saiefsara5@gmail.com</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="main-footer" class="border-top-color2">
+  <div class="container">
+    <ul class="social-links">
+      <li><a href="https://github.com/SAIEF911" target="_blank"><i class="fa fa-github fa-fw"></i></a></li>
+      <li><a href="https://www.linkedin.com/in/saief-alom/" target="_blank"><i class="fa fa-linkedin fa-fw"></i></a></li>
+    </ul>
+    <p class="text-center" style="color:rgba(255,255,255,0.4);">&copy; 2024 Saief Alom. All rights reserved.</p>
+  </div>
+</footer>
+
+</div><!-- end #main-content -->
+
+<script>
+/* Preloader */
+window.addEventListener('load', function(){
+  setTimeout(function(){
+    var l = document.getElementById('page-loader');
+    l.classList.add('hidden');
+    setTimeout(function(){ l.style.display='none'; }, 500);
+  }, 900);
+});
+
+/* Navbar scroll */
+window.addEventListener('scroll', function(){
+  document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 80);
+  checkAnim();
+});
+
+/* Mobile nav */
+function toggleNav(){
+  document.getElementById('nav-links').classList.toggle('open');
+}
+
+/* Smooth scroll */
+document.querySelectorAll('#nav-links a').forEach(function(a){
+  a.addEventListener('click', function(e){
+    e.preventDefault();
+    var el = document.getElementById(this.getAttribute('href').replace('#',''));
+    if(el) window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - 55, behavior:'smooth'});
+    document.getElementById('nav-links').classList.remove('open');
+  });
+});
+document.querySelector('.nav-brand').addEventListener('click', function(e){
+  e.preventDefault();
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+
+/* Scroll animations */
+function checkAnim(){
+  document.querySelectorAll('.scrollimation:not(.in)').forEach(function(el){
+    if(el.getBoundingClientRect().top < window.innerHeight - 40) el.classList.add('in');
+  });
+}
+setTimeout(checkAnim, 200);
+
+/* Project tabs */
+function switchProj(idx, btn){
+  document.querySelectorAll('.proj-tab').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.proj-panel').forEach(function(p){ p.classList.remove('active'); });
+  btn.classList.add('active');
+  var panel = document.getElementById('proj-'+idx);
+  panel.classList.add('active');
+  panel.querySelectorAll('.scrollimation').forEach(function(el){ el.classList.remove('in'); });
+  setTimeout(checkAnim, 60);
+}
+</script>
+</body>
+</html>
