@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saief Alom — Imagination Made Visible</title>
+<meta name="description" content="Saief Alom — Student, Developer, Dreamer.">
+<style>
+/* =========================================================
+   0. TOKENS
+========================================================= */
+:root{
+  --c-bg:#eef1f5;
+  --c-bg-2:#e4e9f0;
+  --c-white:#ffffff;
+  --c-blue-tint:#eaf1fb;
+  --c-silver:#d7dde5;
+  --c-text:#1b1d22;
+  --c-text-soft:#5b616c;
+  --c-text-faint:#8a8f99;
+
+  --glass:rgba(255,255,255,0.52);
+  --glass-strong:rgba(255,255,255,0.68);
+  --glass-border:rgba(255,255,255,0.75);
+  --glass-border-soft:rgba(255,255,255,0.4);
+  --shadow-soft:0 20px 60px rgba(30,40,60,0.10);
+  --shadow-deep:0 30px 80px rgba(20,28,46,0.16);
+
+  --radius-lg:32px;
+  --radius-md:22px;
+  --radius-sm:14px;
+
+  --ease:cubic-bezier(.16,.8,.24,1);
+
+  --mx:50%;
+  --my:40%;
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --c-bg:#eef1f5;
+    --c-bg-2:#e4e9f0;
+  }
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  font-family:-apple-system, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Inter, Arial, sans-serif;
+  color:var(--c-text);
+  background:
+    radial-gradient(1200px 800px at 15% -10%, var(--c-blue-tint), transparent 60%),
+    radial-gradient(1000px 700px at 110% 10%, var(--c-silver), transparent 55%),
+    linear-gradient(180deg, var(--c-bg) 0%, var(--c-bg-2) 100%);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+h1,h2,h3,p{margin:0;}
+
+a{color:inherit;text-decoration:none;}
+
+::selection{background:rgba(120,150,200,0.25);}
+
+/* ambient cursor glow — a signature light, present but restrained */
+.cursor-glow{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+  background:radial-gradient(500px circle at var(--mx) var(--my), rgba(255,255,255,0.28), transparent 60%);
+  transition:opacity .4s var(--ease);
+}
+
+.container{
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 32px;
+}
+
+/* =========================================================
+   1. SCROLL REVEAL
+========================================================= */
+.reveal{
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity .9s var(--ease), transform .9s var(--ease);
+  will-change:transform, opacity;
+}
+.reveal.is-visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* =========================================================
+   2. NAVIGATION
+========================================================= */
+.nav-wrap{
+  position:fixed;
+  top:20px;
+  left:0;
+  right:0;
+  display:flex;
+  justify-content:center;
+  z-index:1000;
+  transition:top .5s var(--ease);
+}
+.nav{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  padding:10px 10px;
+  border-radius:999px;
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  box-shadow:var(--shadow-soft);
+  transition:padding .4s var(--ease), transform .4s var(--ease), box-shadow .4s var(--ease);
+}
+.nav.shrink{
+  padding:6px 6px;
+  transform:scale(0.96);
+  box-shadow:var(--shadow-deep);
+}
+.nav a{
+  position:relative;
+  padding:10px 18px;
+  border-radius:999px;
+  font-size:12.5px;
+  letter-spacing:.08em;
+  font-weight:600;
+  color:var(--c-text-soft);
+  transition:color .35s var(--ease);
+  white-space:nowrap;
+}
+.nav a.active{color:var(--c-text);}
+.nav a .pill-bg{
+  position:absolute;
+  inset:0;
+  border-radius:999px;
+  background:var(--c-white);
+  opacity:0;
+  z-index:-1;
+  box-shadow:0 6px 18px rgba(30,40,60,0.10);
+  transition:opacity .35s var(--ease);
+}
+.nav a.active .pill-bg{opacity:.9;}
+.nav a:hover{color:var(--c-text);}
+
+@media (max-width:680px){
+  .nav a{padding:8px 12px;font-size:10.5px;}
+  .nav-wrap{top:14px;}
+}
+
+/* =========================================================
+   3. SECTION SHELL
+========================================================= */
+section{
+  position:relative;
+  padding:160px 0;
+}
+.section-label{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+  letter-spacing:.22em;
+  font-weight:700;
+  color:var(--c-text-faint);
+  text-transform:uppercase;
+  margin-bottom:22px;
+}
+.section-label::before{
+  content:"";
+  width:7px;height:7px;border-radius:50%;
+  background:linear-gradient(135deg,#a9c4e8,#dfe6ef);
+  box-shadow:0 0 0 4px rgba(169,196,232,0.18);
+}
+
+/* generic glass panel */
+.glass-panel{
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-soft);
+}
+
+/* floating decorative shapes (GPU-only transforms) */
+.floaters{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0;}
+.floater{
+  position:absolute;
+  border-radius:50%;
+  background:linear-gradient(135deg, rgba(255,255,255,0.65), rgba(210,225,245,0.25));
+  border:1px solid rgba(255,255,255,0.5);
+  filter:blur(0.5px);
+  animation:drift 18s ease-in-out infinite;
+  will-change:transform;
+}
+@keyframes drift{
+  0%,100%{transform:translate(0,0) scale(1);}
+  50%{transform:translate(14px,-22px) scale(1.05);}
+}
+
+/* =========================================================
+   4. HERO — GREET
+========================================================= */
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  padding-top:140px;
+  padding-bottom:80px;
+}
+.hero-grid{
+  display:grid;
+  grid-template-columns:0.85fr 1.15fr;
+  gap:60px;
+  align-items:center;
+  width:100%;
+}
+.portrait-wrap{
+  position:relative;
+  display:flex;
+  justify-content:center;
+}
+.portrait-frame{
+  position:relative;
+  width:100%;
+  max-width:380px;
+  aspect-ratio:4/5;
+  border-radius:var(--radius-lg);
+  background:var(--glass-strong);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  box-shadow:var(--shadow-deep);
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.portrait-frame img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+/* placeholder block — swap the <img> src later, this shows until an image is added */
+.portrait-placeholder{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  color:var(--c-text-faint);
+  font-size:13px;
+  letter-spacing:.05em;
+  text-align:center;
+  padding:20px;
+}
+.portrait-placeholder svg{width:44px;height:44px;opacity:.5;}
+.portrait-frame::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(160deg, rgba(255,255,255,0.35), transparent 45%);
+  pointer-events:none;
+}
+
+.hero-text .eyebrow{
+  font-size:13px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--c-text-faint);
+  font-weight:700;
+  margin-bottom:18px;
+  display:block;
+}
+.hero-text h1{
+  font-size:clamp(40px, 6vw, 74px);
+  line-height:1.04;
+  font-weight:700;
+  letter-spacing:-0.02em;
+  background:linear-gradient(135deg,#1b1d22 30%, #566073 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.hero-text .subtitle{
+  margin-top:18px;
+  font-size:18px;
+  color:var(--c-text-soft);
+  font-weight:500;
+  letter-spacing:.02em;
+}
+.hero-text .quote{
+  margin-top:28px;
+  max-width:480px;
+  font-size:16px;
+  line-height:1.7;
+  color:var(--c-text-soft);
+}
+.hero-actions{
+  margin-top:38px;
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
+.btn{
+  padding:14px 28px;
+  border-radius:999px;
+  font-size:14px;
+  font-weight:600;
+  letter-spacing:.03em;
+  cursor:pointer;
+  border:1px solid var(--glass-border);
+  background:var(--glass-strong);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  box-shadow:var(--shadow-soft);
+  transition:transform .35s var(--ease), box-shadow .35s var(--ease), background .35s var(--ease);
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+.btn:hover{transform:translateY(-3px);box-shadow:var(--shadow-deep);}
+.btn.primary{
+  background:linear-gradient(135deg,#2b2f36,#454b56);
+  color:#fff;
+  border:1px solid rgba(0,0,0,0.1);
+}
+.btn.primary:hover{filter:brightness(1.08);}
+
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr;gap:40px;text-align:center;}
+  .hero-actions{justify-content:center;}
+  .hero-text .quote{margin-inline:auto;}
+}
+
+/* particle canvas confined to hero */
+#particleCanvas{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+  pointer-events:none;
+}
+
+/* =========================================================
+   5. IMAGINATIONS
+========================================================= */
+.imaginations{
+  display:flex;
+  justify-content:center;
+}
+.imaginations-card{
+  position:relative;
+  z-index:1;
+  max-width:760px;
+  text-align:center;
+  padding:70px 56px;
+}
+.imaginations-card h2{
+  font-size:clamp(30px,4vw,46px);
+  font-weight:700;
+  letter-spacing:-0.01em;
+  margin-bottom:24px;
+}
+.imaginations-card p{
+  font-size:17px;
+  line-height:1.8;
+  color:var(--c-text-soft);
+}
+@media (max-width:680px){
+  .imaginations-card{padding:44px 26px;}
+}
+
+/* =========================================================
+   6. THOUGHTS GRID
+========================================================= */
+.thoughts-grid{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:22px;
+  position:relative;
+  z-index:1;
+  contain:layout paint;
+}
+@media (max-width:980px){ .thoughts-grid{grid-template-columns:repeat(2,1fr);} }
+@media (max-width:640px){ .thoughts-grid{grid-template-columns:1fr;} }
+
+/* Note: these cards intentionally skip backdrop-filter. A dozen blurred glass
+   layers on screen at once is the single heaviest GPU cost on this page, so
+   the grid uses a solid tinted background instead — same glass read, far
+   less compositing work. Blur is reserved for the few large single panels. */
+.thought-card{
+  padding:32px 28px;
+  border-radius:var(--radius-md);
+  background:linear-gradient(160deg, rgba(255,255,255,0.82), rgba(255,255,255,0.55));
+  border:1px solid var(--glass-border);
+  box-shadow:var(--shadow-soft);
+  transition:transform .35s var(--ease), box-shadow .35s var(--ease), background .35s var(--ease);
+}
+.thought-card:hover{
+  transform:translateY(-6px);
+  box-shadow:var(--shadow-deep);
+  background:linear-gradient(160deg, rgba(255,255,255,0.92), rgba(255,255,255,0.68));
+}
+.thought-icon{
+  width:42px;height:42px;
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg, rgba(255,255,255,0.9), rgba(220,232,248,0.6));
+  border:1px solid var(--glass-border);
+  margin-bottom:18px;
+}
+.thought-icon svg{width:20px;height:20px;stroke:#4b5563;fill:none;stroke-width:1.6;}
+.thought-card h3{font-size:17px;font-weight:700;margin-bottom:10px;letter-spacing:-0.01em;}
+.thought-card p{font-size:14.5px;line-height:1.65;color:var(--c-text-soft);}
+
+/* =========================================================
+   7. UNC — CHAOS
+========================================================= */
+.unc-section{
+  padding:180px 0;
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(700px 500px at 20% 20%, rgba(190,205,235,0.35), transparent 60%),
+    radial-gradient(800px 600px at 85% 80%, rgba(220,205,235,0.3), transparent 55%);
+}
+/* A small moving light instead of a full-section background-position sheen —
+   background-position animation forces a repaint of the whole section every
+   frame. Animating transform on a small fixed-size element is compositor-only
+   and effectively free by comparison. */
+.unc-section::before{
+  content:"";
+  position:absolute;
+  top:-20%;
+  left:-30%;
+  width:70%;
+  height:140%;
+  background:linear-gradient(120deg, transparent, rgba(255,255,255,0.28), transparent);
+  animation:sheen 10s ease-in-out infinite;
+  will-change:transform;
+  pointer-events:none;
+}
+@keyframes sheen{
+  0%,100%{transform:translateX(0) rotate(6deg);}
+  50%{transform:translateX(60vw) rotate(6deg);}
+}
+.unc-glass{
+  position:relative;
+  z-index:2;
+  max-width:720px;
+  margin:0 auto;
+  text-align:center;
+  padding:70px 50px;
+  border-radius:var(--radius-lg);
+  background:var(--glass);
+  border:1px solid var(--glass-border-soft);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  box-shadow:var(--shadow-deep);
+  transform:skewY(-0.4deg);
+}
+.unc-glass h2{
+  font-size:clamp(48px,7vw,96px);
+  font-weight:800;
+  letter-spacing:.04em;
+  background:linear-gradient(120deg,#1b1d22, #7a88a3, #1b1d22);
+  background-size:200% auto;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  animation:shimmer 6s linear infinite;
+}
+@keyframes shimmer{
+  0%{background-position:0% 0;}
+  100%{background-position:200% 0;}
+}
+.unc-glass p{
+  margin-top:26px;
+  font-size:16.5px;
+  line-height:1.8;
+  color:var(--c-text-soft);
+}
+.unc-shape{
+  position:absolute;
+  border-radius:40%;
+  background:linear-gradient(135deg, rgba(255,255,255,0.5), rgba(190,210,240,0.15));
+  border:1px solid rgba(255,255,255,0.4);
+  filter:blur(1px);
+  animation:wobble 14s ease-in-out infinite;
+  will-change:transform;
+  z-index:1;
+}
+@keyframes wobble{
+  0%,100%{transform:translate(0,0) rotate(0deg);}
+  33%{transform:translate(20px,-30px) rotate(8deg);}
+  66%{transform:translate(-16px,18px) rotate(-6deg);}
+}
+
+/* =========================================================
+   8. ABOUT
+========================================================= */
+.about-wrap{display:flex;justify-content:center;}
+.about-card{
+  max-width:720px;
+  text-align:center;
+  padding:70px 56px;
+  position:relative;
+  z-index:1;
+}
+.about-card h2{font-size:clamp(30px,4vw,46px);font-weight:700;margin-bottom:24px;letter-spacing:-0.01em;}
+.about-card p{font-size:16.5px;line-height:1.85;color:var(--c-text-soft);}
+.chips{
+  margin-top:34px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+}
+.chip{
+  padding:10px 20px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:.02em;
+  background:var(--glass-strong);
+  border:1px solid var(--glass-border);
+  color:var(--c-text-soft);
+  transition:transform .3s var(--ease), color .3s var(--ease);
+}
+.chip:hover{transform:translateY(-2px);color:var(--c-text);}
+@media (max-width:680px){.about-card{padding:44px 26px;}}
+
+/* =========================================================
+   9. FOOTER
+========================================================= */
+footer{
+  position:relative;
+  padding:90px 0 130px;
+  text-align:center;
+  z-index:1;
+}
+.footer-glass{
+  max-width:640px;
+  margin:0 auto;
+  padding:56px 40px;
+  border-radius:var(--radius-lg);
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  box-shadow:var(--shadow-soft);
+}
+.footer-sig{
+  font-size:clamp(28px,4vw,40px);
+  font-weight:800;
+  letter-spacing:.06em;
+  color:var(--c-text);
+}
+.footer-tag{
+  margin-top:12px;
+  font-size:13.5px;
+  color:var(--c-text-faint);
+  letter-spacing:.03em;
+}
+.social-row{
+  margin-top:28px;
+  display:flex;
+  gap:14px;
+  justify-content:center;
+}
+.social-dot{
+  width:40px;height:40px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--glass-strong);
+  border:1px solid var(--glass-border);
+  transition:transform .3s var(--ease);
+}
+.social-dot:hover{transform:translateY(-3px);}
+.social-dot svg{width:16px;height:16px;stroke:#6b7280;fill:none;stroke-width:1.6;}
+.footer-copy{
+  margin-top:30px;
+  font-size:12px;
+  color:var(--c-text-faint);
+}
+#year-live{display:inline-block;}
+
+/* =========================================================
+   10. MUSIC PLAYER
+========================================================= */
+.music-player{
+  position:fixed;
+  bottom:22px;
+  right:22px;
+  z-index:900;
+  width:300px;
+  padding:16px 18px;
+  border-radius:20px;
+  background:var(--glass-strong);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  box-shadow:var(--shadow-deep);
+  transition:transform .4s var(--ease), opacity .4s var(--ease);
+}
+.music-player.collapsed{
+  transform:translateY(calc(100% + 22px));
+  opacity:0;
+  pointer-events:none;
+}
+.mp-top{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.mp-art{
+  width:46px;height:46px;
+  border-radius:12px;
+  flex-shrink:0;
+  background:linear-gradient(135deg,#dfe6ef,#c9d3e0);
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--glass-border);
+}
+.mp-art svg{width:18px;height:18px;stroke:#6b7280;fill:none;stroke-width:1.6;}
+.mp-meta{min-width:0;flex:1;}
+.mp-title{font-size:13.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mp-artist{font-size:11.5px;color:var(--c-text-faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mp-toggle{
+  width:32px;height:32px;
+  border-radius:50%;
+  border:1px solid var(--glass-border);
+  background:var(--c-white);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  flex-shrink:0;
+  transition:transform .3s var(--ease);
+}
+.mp-toggle:hover{transform:scale(1.06);}
+.mp-toggle svg{width:14px;height:14px;stroke:#2b2f36;fill:none;stroke-width:1.8;}
+
+.mp-progress-row{
+  display:flex;align-items:center;gap:8px;
+  margin-top:14px;
+}
+.mp-time{font-size:10.5px;color:var(--c-text-faint);width:34px;flex-shrink:0;text-align:center;}
+input[type="range"]{
+  -webkit-appearance:none;
+  appearance:none;
+  height:4px;
+  border-radius:4px;
+  background:var(--c-silver);
+  flex:1;
+  outline:none;
+  cursor:pointer;
+}
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:12px;height:12px;
+  border-radius:50%;
+  background:#fff;
+  border:1px solid var(--glass-border);
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+}
+input[type="range"]::-moz-range-thumb{
+  width:12px;height:12px;border-radius:50%;background:#fff;border:1px solid var(--glass-border);
+}
+#mp-progress{
+  background:linear-gradient(to right, #7a88a3 var(--fill,0%), var(--c-silver) var(--fill,0%));
+}
+
+.mp-controls{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-top:14px;
+}
+.mp-buttons{display:flex;align-items:center;gap:10px;}
+.mp-btn{
+  width:34px;height:34px;
+  border-radius:50%;
+  border:1px solid var(--glass-border);
+  background:rgba(255,255,255,0.6);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  transition:transform .3s var(--ease), background .3s var(--ease);
+}
+.mp-btn:hover{transform:translateY(-2px);background:#fff;}
+.mp-btn svg{width:14px;height:14px;stroke:#2b2f36;fill:none;stroke-width:1.7;}
+.mp-btn.play{width:38px;height:38px;background:#2b2f36;}
+.mp-btn.play svg{stroke:#fff;fill:#fff;}
+.mp-volume{
+  display:flex;align-items:center;gap:6px;
+  width:100px;
+}
+#mp-volume{
+  background:linear-gradient(to right, #7a88a3 var(--vfill,70%), var(--c-silver) var(--vfill,70%));
+}
+.mp-note{
+  margin-top:10px;
+  font-size:10.5px;
+  color:var(--c-text-faint);
+  text-align:center;
+  display:none;
+}
+.mp-note.show{display:block;}
+
+@media (max-width:560px){
+  .music-player{
+    left:16px;right:16px;bottom:16px;width:auto;
+  }
+}
+
+/* reopen tab for the player when collapsed */
+.mp-reopen{
+  position:fixed;
+  bottom:22px;
+  right:22px;
+  z-index:899;
+  width:48px;height:48px;
+  border-radius:50%;
+  background:var(--glass-strong);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  box-shadow:var(--shadow-soft);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .4s var(--ease), transform .3s var(--ease);
+}
+.mp-reopen.show{opacity:1;pointer-events:auto;}
+.mp-reopen:hover{transform:scale(1.06);}
+.mp-reopen svg{width:18px;height:18px;stroke:#2b2f36;fill:none;stroke-width:1.7;}
+
+/* =========================================================
+   11. REDUCED MOTION
+========================================================= */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  .floater, .unc-shape, .unc-section::before, .unc-glass h2{animation:none !important;}
+  .reveal{transition:opacity .4s linear;transform:none;}
+  .cursor-glow{display:none;}
+  * {animation-duration:0.001ms !important;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- ============ NAVIGATION ============ -->
+<div class="nav-wrap">
+  <nav class="nav" id="mainNav">
+    <a href="#greet" data-section="greet"><span class="pill-bg"></span>GREET</a>
+    <a href="#imaginations" data-section="imaginations"><span class="pill-bg"></span>IMAGINATIONS</a>
+    <a href="#thoughts" data-section="thoughts"><span class="pill-bg"></span>THOUGHTS</a>
+    <a href="#unc" data-section="unc"><span class="pill-bg"></span>UNC</a>
+    <a href="#about" data-section="about"><span class="pill-bg"></span>ABOUT</a>
+  </nav>
+</div>
+
+<!-- ============ SECTION 1 : GREET ============ -->
+<section id="greet" class="hero">
+  <canvas id="particleCanvas"></canvas>
+  <div class="container hero-grid">
+    <div class="portrait-wrap reveal">
+      <div class="portrait-frame">
+        <!-- Replace this block with: <img src="assets/portrait.jpg" alt="Saief Alom"> -->
+        <div class="portrait-placeholder">
+          <svg viewBox="0 0 24 24"><path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke-linecap="round"/><circle cx="12" cy="8" r="4"/></svg>
+          <span>Portrait image goes here<br>(swap this block for your photo)</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-text reveal">
+      <span class="eyebrow">Portfolio</span>
+      <h1>Hello, I'm<br>Saief Alom.</h1>
+      <p class="subtitle">Student • Developer • Dreamer</p>
+      <p class="quote">"I don't build websites to fill space.<br>
+      I build experiences that people remember.<br>
+      Every project begins as an imagination long before it becomes reality."</p>
+      <div class="hero-actions">
+        <a href="#imaginations" class="btn primary">Explore</a>
+        <a href="#thoughts" class="btn">Scroll Down</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 2 : IMAGINATIONS ============ -->
+<section id="imaginations" class="imaginations">
+  <div class="floaters">
+    <div class="floater" style="width:120px;height:120px;top:8%;left:6%;animation-duration:20s;"></div>
+    <div class="floater" style="width:80px;height:80px;top:70%;left:82%;animation-duration:16s;"></div>
+    <div class="floater" style="width:60px;height:60px;top:20%;left:88%;animation-duration:22s;"></div>
+    <div class="floater" style="width:44px;height:44px;top:82%;left:12%;animation-duration:14s;"></div>
+  </div>
+  <div class="container">
+    <div class="imaginations-card glass-panel reveal" style="margin:0 auto;">
+      <span class="section-label" style="display:flex;justify-content:center;">Imaginations</span>
+      <h2>Imagination Shapes Reality</h2>
+      <p>Every innovation starts as an impossible thought.<br><br>
+      I enjoy imagining worlds that do not yet exist—interfaces that feel alive, technologies that solve invisible problems, and experiences that connect emotion with design.<br><br>
+      This website is only a small window into that endless imagination.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 3 : THOUGHTS ============ -->
+<section id="thoughts">
+  <div class="container">
+    <span class="section-label reveal">Thoughts</span>
+    <div class="thoughts-grid" id="thoughtsGrid"></div>
+  </div>
+</section>
+
+<!-- ============ SECTION 4 : UNC ============ -->
+<section id="unc" class="unc-section">
+  <div class="unc-shape" style="width:160px;height:160px;top:10%;left:8%;"></div>
+  <div class="unc-shape" style="width:100px;height:100px;top:65%;left:80%;animation-duration:11s;"></div>
+  <div class="unc-shape" style="width:70px;height:70px;top:30%;left:85%;animation-duration:17s;"></div>
+  <div class="unc-shape" style="width:50px;height:50px;top:78%;left:15%;animation-duration:9s;"></div>
+  <div class="container">
+    <div class="unc-glass reveal">
+      <h2>UNC</h2>
+      <p>Some ideas refuse structure.<br>
+      Some dreams cannot be explained.<br>
+      Not everything has to make sense.<br>
+      Sometimes chaos is simply another language of creativity.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 5 : ABOUT ============ -->
+<section id="about" class="about-wrap">
+  <div class="container">
+    <div class="about-card glass-panel reveal" style="margin:0 auto;">
+      <span class="section-label" style="display:flex;justify-content:center;">About</span>
+      <h2>About Me</h2>
+      <p>My name is Saief Alom.<br><br>
+      I enjoy designing beautiful digital experiences while continuously learning programming, technology and science.<br><br>
+      I believe curiosity is more powerful than talent, and consistency is more valuable than motivation.<br><br>
+      Every day I try to become slightly better than yesterday.</p>
+      <div class="chips">
+        <span class="chip">Student</span>
+        <span class="chip">Bangladesh</span>
+        <span class="chip">Developer</span>
+        <span class="chip">Designer</span>
+        <span class="chip">AI Enthusiast</span>
+        <span class="chip">Lifelong Learner</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="footer-glass reveal">
+      <div class="footer-sig">SAIEF ALOM</div>
+      <div class="footer-tag">Designed with imagination. Built with passion.</div>
+      <div class="social-row">
+        <a class="social-dot" href="#" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.6 2.8 5.5 3.1 5.5 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4.1 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a class="social-dot" href="#" aria-label="Email"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+      <div class="footer-copy">© <span id="year-live"></span> Saief Alom. All rights imagined.</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ MUSIC PLAYER ============ -->
+<div class="music-player" id="musicPlayer">
+  <audio id="audio" preload="none"></audio>
+  <div class="mp-top">
+    <div class="mp-art"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+    <div class="mp-meta">
+      <div class="mp-title" id="mp-title">Song Title</div>
+      <div class="mp-artist" id="mp-artist">Artist Name</div>
+    </div>
+    <div class="mp-toggle" id="mpCollapse" title="Minimize player">
+      <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </div>
+
+  <div class="mp-progress-row">
+    <span class="mp-time" id="mp-current">0:00</span>
+    <input type="range" id="mp-progress" min="0" max="100" value="0" step="0.1">
+    <span class="mp-time" id="mp-duration">0:00</span>
+  </div>
+
+  <div class="mp-controls">
+    <div class="mp-buttons">
+      <div class="mp-btn" id="mpPrev" title="Previous">
+        <svg viewBox="0 0 24 24"><path d="M19 20L9 12l10-8v16z"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
+      </div>
+      <div class="mp-btn play" id="mpPlay" title="Play">
+        <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+      <div class="mp-btn" id="mpNext" title="Next">
+        <svg viewBox="0 0 24 24"><path d="M5 4l10 8-10 8V4z"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+      </div>
+    </div>
+    <div class="mp-volume">
+      <div class="mp-btn" id="mpMute" style="width:26px;height:26px;" title="Mute">
+        <svg id="volIcon" viewBox="0 0 24 24" style="width:12px;height:12px;"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 010 7" stroke-linecap="round"/></svg>
+      </div>
+      <input type="range" id="mp-volume" min="0" max="1" step="0.01" value="0.7">
+    </div>
+  </div>
+  <div class="mp-note" id="mpNote">Track not found — add your file under assets/music/</div>
+</div>
+
+<div class="mp-reopen" id="mpReopen" title="Open player">
+  <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------------------------------------------------------
+     SCROLL REVEAL
+  --------------------------------------------------------- */
+  var revealEls = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          e.target.classList.add('is-visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, {threshold:0.15, rootMargin:'0px 0px -60px 0px'});
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+  }
+
+  /* ---------------------------------------------------------
+     NAV — active section + shrink on scroll
+  --------------------------------------------------------- */
+  var navLinks = document.querySelectorAll('.nav a');
+  var navEl = document.getElementById('mainNav');
+  var sections = document.querySelectorAll('section[id]');
+
+  var sectionObserver = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        var id = entry.target.id;
+        navLinks.forEach(function(link){
+          link.classList.toggle('active', link.dataset.section === id);
+        });
+      }
+    });
+  }, {threshold:0, rootMargin:'-45% 0px -45% 0px'});
+  sections.forEach(function(s){ sectionObserver.observe(s); });
+
+  var lastShrink = false;
+  window.addEventListener('scroll', function(){
+    var shouldShrink = window.scrollY > 40;
+    if(shouldShrink !== lastShrink){
+      navEl.classList.toggle('shrink', shouldShrink);
+      lastShrink = shouldShrink;
+    }
+  }, {passive:true});
+
+  /* ---------------------------------------------------------
+     CURSOR GLOW (throttled via rAF)
+  --------------------------------------------------------- */
+  if(!reduceMotion && window.matchMedia('(pointer: fine)').matches){
+    var pending = false;
+    window.addEventListener('pointermove', function(e){
+      if(pending) return;
+      pending = true;
+      requestAnimationFrame(function(){
+        var x = (e.clientX / window.innerWidth) * 100;
+        var y = (e.clientY / window.innerHeight) * 100;
+        document.documentElement.style.setProperty('--mx', x + '%');
+        document.documentElement.style.setProperty('--my', y + '%');
+        pending = false;
+      });
+    }, {passive:true});
+  } else {
+    document.getElementById('cursorGlow').style.display = 'none';
+  }
+
+  /* ---------------------------------------------------------
+     PARTICLES — lightweight canvas, hero only
+  --------------------------------------------------------- */
+  var canvas = document.getElementById('particleCanvas');
+  if(canvas && !reduceMotion){
+    var ctx = canvas.getContext('2d');
+    var hero = document.getElementById('greet');
+    var particles = [];
+    var count = window.innerWidth < 700 ? 14 : 26;
+    var w, h, dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    function resize(){
+      w = hero.offsetWidth;
+      h = hero.offsetHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+    }
+    function makeParticles(){
+      particles = [];
+      for(var i=0;i<count;i++){
+        particles.push({
+          x: Math.random()*w,
+          y: Math.random()*h,
+          r: 1 + Math.random()*2.2,
+          vy: 0.10 + Math.random()*0.18,
+          vx: (Math.random()-0.5)*0.10,
+          o: 0.15 + Math.random()*0.35
+        });
+      }
+    }
+    resize();
+    makeParticles();
+    window.addEventListener('resize', function(){
+      resize();
+      makeParticles();
+    });
+
+    var lastT = 0;
+    function loop(t){
+      if(t - lastT > 33){ /* ~30fps cap, lightweight */
+        lastT = t;
+        ctx.clearRect(0,0,w,h);
+        for(var i=0;i<particles.length;i++){
+          var p = particles[i];
+          p.y -= p.vy;
+          p.x += p.vx;
+          if(p.y < -10){ p.y = h+10; p.x = Math.random()*w; }
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+          ctx.fillStyle = 'rgba(255,255,255,' + p.o + ')';
+          ctx.fill();
+        }
+      }
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  }
+
+  /* ---------------------------------------------------------
+     THOUGHTS — 12 generated glass cards
+  --------------------------------------------------------- */
+  var thoughts = [
+    {t:"Dream Bigger", d:"The size of a dream should never be limited by the size of the room you are standing in.", icon:'<path d="M12 3v3M12 18v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M3 12h3M18 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/><circle cx="12" cy="12" r="4"/>'},
+    {t:"Learning", d:"Every book, every mistake, every conversation quietly rewires the way I see the world.", icon:'<path d="M4 19V6a2 2 0 012-2h6v16H6a2 2 0 01-2-2z"/><path d="M20 19V6a2 2 0 00-2-2h-6v16h6a2 2 0 002-2z"/>'},
+    {t:"Technology", d:"Technology is only meaningful when it disappears into the background and simply helps.", icon:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9h6v6H9z"/><path d="M2 9h2M2 15h2M20 9h2M20 15h2M9 2v2M15 2v2M9 20v2M15 20v2"/>'},
+    {t:"Creativity", d:"Creativity is intelligence having fun with problems no one asked it to solve.", icon:'<path d="M12 3a5 5 0 015 5c0 3-2 4-2 7H9c0-3-2-4-2-7a5 5 0 015-5z"/><path d="M9 20h6"/>'},
+    {t:"Physics", d:"The universe runs on rules simple enough to write on a napkin, yet vast enough to hold galaxies.", icon:'<circle cx="12" cy="12" r="1.4"/><ellipse cx="12" cy="12" rx="9" ry="3.6"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(120 12 12)"/>'},
+    {t:"Artificial Intelligence", d:"AI is not here to replace imagination — it is here to give it new hands.", icon:'<rect x="6" y="6" width="12" height="12" rx="2"/><circle cx="9.5" cy="10" r="1"/><circle cx="14.5" cy="10" r="1"/><path d="M9 15h6M12 2v4M12 18v4M4 9h2M4 15h2M18 9h2M18 15h2"/>'},
+    {t:"Nature", d:"Nature never rushes, yet everything it builds eventually finds its place.", icon:'<path d="M12 21c-4-1-7-4-7-9a7 7 0 0114 0c0 5-3 8-7 9z"/><path d="M12 21V9"/>'},
+    {t:"Curiosity", d:"Curiosity is the quiet voice that keeps asking \'why\' long after everyone else stopped.", icon:'<circle cx="10.5" cy="10.5" r="6.5"/><line x1="20" y1="20" x2="15.2" y2="15.2" stroke-linecap="round"/>'},
+    {t:"Design", d:"Good design is invisible; you only notice it when something suddenly feels effortless.", icon:'<path d="M14 3l7 7-9 9-4 1 1-4z"/><path d="M12.5 5.5l6 6"/>'},
+    {t:"Future", d:"The future does not arrive on its own — it is quietly assembled by people who imagine it first.", icon:'<path d="M4 15l5-5 4 4 7-7" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 6h5v5"/>'},
+    {t:"Failure", d:"Failure is only a dead end if you refuse to turn it into a doorway.", icon:'<path d="M4 4l16 16M20 4L4 20" stroke-linecap="round"/><circle cx="12" cy="12" r="9"/>'},
+    {t:"Purpose", d:"Purpose is what turns ordinary effort into something that quietly outlives the moment.", icon:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.6" fill="#4b5563"/>'}
+  ];
+  var grid = document.getElementById('thoughtsGrid');
+  var frag = document.createDocumentFragment();
+  thoughts.forEach(function(item, idx){
+    var card = document.createElement('div');
+    card.className = 'thought-card reveal';
+    card.style.transitionDelay = (idx % 3) * 0.06 + 's';
+    card.innerHTML =
+      '<div class="thought-icon"><svg viewBox="0 0 24 24">' + item.icon + '</svg></div>' +
+      '<h3>' + item.t + '</h3>' +
+      '<p>' + item.d + '</p>';
+    frag.appendChild(card);
+  });
+  grid.appendChild(frag);
+  // observe newly created cards
+  var newReveals = grid.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io2 = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('is-visible'); io2.unobserve(e.target); }
+      });
+    }, {threshold:0.1, rootMargin:'0px 0px -40px 0px'});
+    newReveals.forEach(function(el){ io2.observe(el); });
+  } else {
+    newReveals.forEach(function(el){ el.classList.add('is-visible'); });
+  }
+
+  /* ---------------------------------------------------------
+     FOOTER YEAR
+  --------------------------------------------------------- */
+  document.getElementById('year-live').textContent = new Date().getFullYear();
+
+  /* ---------------------------------------------------------
+     MUSIC PLAYER
+     Change only this line to point at your track:
+  --------------------------------------------------------- */
+  var SONG_PATH = "assets/music/song.mp3";
+  var SONG_TITLE = "Song Title";
+  var SONG_ARTIST = "Artist Name";
+
+  var audio = document.getElementById('audio');
+  var playBtn = document.getElementById('mpPlay');
+  var playIcon = document.getElementById('playIcon');
+  var progress = document.getElementById('mp-progress');
+  var volumeSlider = document.getElementById('mp-volume');
+  var currentEl = document.getElementById('mp-current');
+  var durationEl = document.getElementById('mp-duration');
+  var muteBtn = document.getElementById('mpMute');
+  var volIcon = document.getElementById('volIcon');
+  var mpNote = document.getElementById('mpNote');
+  var mpPlayer = document.getElementById('musicPlayer');
+  var mpCollapse = document.getElementById('mpCollapse');
+  var mpReopen = document.getElementById('mpReopen');
+
+  document.getElementById('mp-title').textContent = SONG_TITLE;
+  document.getElementById('mp-artist').textContent = SONG_ARTIST;
+  audio.src = SONG_PATH;
+
+  var ICON_PLAY = '<path d="M8 5v14l11-7z"/>';
+  var ICON_PAUSE = '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>';
+
+  function fmtTime(sec){
+    if(!isFinite(sec) || isNaN(sec)) return "0:00";
+    var m = Math.floor(sec/60);
+    var s = Math.floor(sec%60);
+    return m + ":" + (s<10?"0":"") + s;
+  }
+
+  /* restore remembered state */
+  var savedVol = localStorage.getItem('mp_volume');
+  var savedMuted = localStorage.getItem('mp_muted') === 'true';
+  var savedTime = parseFloat(localStorage.getItem('mp_time') || "0");
+  var savedCollapsed = localStorage.getItem('mp_collapsed') === 'true';
+
+  audio.volume = savedVol !== null ? parseFloat(savedVol) : 0.7;
+  audio.muted = savedMuted;
+  volumeSlider.value = audio.volume;
+  volumeSlider.style.setProperty('--vfill', (audio.volume*100)+'%');
+  updateVolIcon();
+
+  if(savedCollapsed){
+    mpPlayer.classList.add('collapsed');
+    mpReopen.classList.add('show');
+  }
+
+  audio.addEventListener('loadedmetadata', function(){
+    durationEl.textContent = fmtTime(audio.duration);
+    if(savedTime > 0 && savedTime < audio.duration){
+      audio.currentTime = savedTime;
+    }
+  });
+
+  audio.addEventListener('error', function(){
+    mpNote.classList.add('show');
+    playBtn.style.opacity = '0.4';
+    playBtn.style.pointerEvents = 'none';
+  });
+
+  playBtn.addEventListener('click', function(){
+    if(audio.error){ return; }
+    if(audio.paused){
+      audio.play().catch(function(){
+        mpNote.classList.add('show');
+      });
+    } else {
+      audio.pause();
+    }
+  });
+
+  audio.addEventListener('play', function(){
+    playIcon.innerHTML = ICON_PAUSE;
+    localStorage.setItem('mp_playing', 'true');
+  });
+  audio.addEventListener('pause', function(){
+    playIcon.innerHTML = ICON_PLAY;
+    localStorage.setItem('mp_playing', 'false');
+  });
+
+  audio.addEventListener('timeupdate', function(){
+    if(audio.duration){
+      var pct = (audio.currentTime / audio.duration) * 100;
+      progress.value = pct;
+      progress.style.setProperty('--fill', pct + '%');
+      currentEl.textContent = fmtTime(audio.currentTime);
+      localStorage.setItem('mp_time', audio.currentTime);
+    }
+  });
+
+  progress.addEventListener('input', function(){
+    if(audio.duration){
+      audio.currentTime = (progress.value/100) * audio.duration;
+    }
+  });
+
+  volumeSlider.addEventListener('input', function(){
+    audio.volume = parseFloat(volumeSlider.value);
+    audio.muted = false;
+    volumeSlider.style.setProperty('--vfill', (audio.volume*100)+'%');
+    localStorage.setItem('mp_volume', audio.volume);
+    localStorage.setItem('mp_muted', 'false');
+    updateVolIcon();
+  });
+
+  muteBtn.addEventListener('click', function(){
+    audio.muted = !audio.muted;
+    localStorage.setItem('mp_muted', audio.muted);
+    updateVolIcon();
+  });
+
+  function updateVolIcon(){
+    if(audio.muted || audio.volume === 0){
+      volIcon.innerHTML = '<path d="M11 5L6 9H3v6h3l5 4V5z"/><line x1="16" y1="9" x2="21" y2="15" stroke-linecap="round"/><line x1="21" y1="9" x2="16" y2="15" stroke-linecap="round"/>';
+    } else {
+      volIcon.innerHTML = '<path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 010 7" stroke-linecap="round"/>';
+    }
+  }
+
+  /* prev / next reserved for future playlist support */
+  document.getElementById('mpPrev').addEventListener('click', function(){
+    audio.currentTime = 0;
+  });
+  document.getElementById('mpNext').addEventListener('click', function(){
+    /* no playlist yet — placeholder for future tracks */
+  });
+
+  mpCollapse.addEventListener('click', function(){
+    mpPlayer.classList.add('collapsed');
+    mpReopen.classList.add('show');
+    localStorage.setItem('mp_collapsed', 'true');
+  });
+  mpReopen.addEventListener('click', function(){
+    mpPlayer.classList.remove('collapsed');
+    mpReopen.classList.remove('show');
+    localStorage.setItem('mp_collapsed', 'false');
+  });
+
+})();
+</script>
+</body>
+</html>
