@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saief Alom — Imagination Made Visible</title>
+<meta name="description" content="Saief Alom — Student, Developer, Dreamer.">
+<style>
+/* =========================================================
+   0. TOKENS
+========================================================= */
+:root{
+  --c-bg:#eef1f5;
+  --c-bg-2:#e4e9f0;
+  --c-white:#ffffff;
+  --c-blue-tint:#eaf1fb;
+  --c-silver:#d7dde5;
+  --c-text:#1b1d22;
+  --c-text-soft:#5b616c;
+  --c-text-faint:#8a8f99;
+
+  --c-accent-1:rgba(110,160,255,0.40);
+  --c-accent-2:rgba(180,120,255,0.32);
+  --c-accent-3:rgba(255,175,110,0.28);
+  --c-accent-4:rgba(120,230,210,0.24);
+
+  --glass:rgba(255,255,255,0.52);
+  --glass-strong:rgba(255,255,255,0.68);
+  --glass-border:rgba(255,255,255,0.75);
+  --glass-border-soft:rgba(255,255,255,0.4);
+  --shadow-soft:0 20px 60px rgba(30,40,60,0.10);
+  --shadow-deep:0 30px 80px rgba(20,28,46,0.16);
+
+  --radius-lg:32px;
+  --radius-md:22px;
+  --radius-sm:14px;
+
+  --ease:cubic-bezier(.16,.8,.24,1);
+}
+
+/* dark theme — toggled manually via the switch, not by OS preference */
+:root[data-theme="dark"]{
+  --c-bg:#0f1116;
+  --c-bg-2:#161922;
+  --c-white:#1b1e26;
+  --c-blue-tint:#182236;
+  --c-silver:#232733;
+  --c-text:#f1f2f5;
+  --c-text-soft:#b6bac3;
+  --c-text-faint:#7d818c;
+
+  --c-accent-1:rgba(70,110,255,0.40);
+  --c-accent-2:rgba(170,80,255,0.34);
+  --c-accent-3:rgba(255,130,90,0.26);
+  --c-accent-4:rgba(60,220,190,0.22);
+
+  --glass:rgba(255,255,255,0.06);
+  --glass-strong:rgba(255,255,255,0.10);
+  --glass-border:rgba(255,255,255,0.14);
+  --glass-border-soft:rgba(255,255,255,0.08);
+  --shadow-soft:0 20px 60px rgba(0,0,0,0.45);
+  --shadow-deep:0 30px 80px rgba(0,0,0,0.6);
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  font-family:-apple-system, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Inter, Arial, sans-serif;
+  color:var(--c-text);
+  background:
+    radial-gradient(900px 700px at 8% -8%, var(--c-accent-1), transparent 58%),
+    radial-gradient(760px 560px at 28% 10%, rgba(255,255,255,0.18), transparent 60%),
+    radial-gradient(900px 700px at 100% 0%, var(--c-accent-2), transparent 55%),
+    radial-gradient(740px 540px at 82% 12%, rgba(170,200,255,0.14), transparent 60%),
+    radial-gradient(1000px 800px at 85% 95%, var(--c-accent-3), transparent 55%),
+    radial-gradient(760px 560px at 10% 86%, rgba(120,230,210,0.14), transparent 58%),
+    radial-gradient(800px 650px at 5% 90%, var(--c-accent-4), transparent 55%),
+    linear-gradient(180deg, var(--c-bg) 0%, var(--c-bg-2) 100%);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+h1,h2,h3,p{margin:0;}
+
+a{color:inherit;text-decoration:none;}
+
+
+::selection{background:rgba(120,150,200,0.25);}
+
+.container{
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 32px;
+}
+
+/* =========================================================
+   1. SCROLL REVEAL
+========================================================= */
+.reveal{
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity .9s var(--ease), transform .9s var(--ease);
+  will-change:transform, opacity;
+}
+.reveal.is-visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* =========================================================
+   2. NAVIGATION
+========================================================= */
+.nav-wrap{
+  position:fixed;
+  top:20px;
+  left:0;
+  right:0;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:center;
+  gap:12px;
+  padding:0 12px;
+  z-index:1000;
+  transition:top .5s var(--ease);
+}
+.nav{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  padding:10px 10px;
+  border-radius:999px;
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  box-shadow:var(--shadow-soft);
+  transition:padding .4s var(--ease), transform .4s var(--ease), box-shadow .4s var(--ease);
+}
+.nav.shrink{
+  padding:6px 6px;
+  transform:scale(0.96);
+  box-shadow:var(--shadow-deep);
+}
+.nav a{
+  position:relative;
+  padding:10px 18px;
+  border-radius:999px;
+  font-size:12.5px;
+  letter-spacing:.08em;
+  font-weight:600;
+  color:var(--c-text-soft);
+  transition:color .35s var(--ease);
+  white-space:nowrap;
+}
+.nav a.active{color:var(--c-text);}
+.nav a .pill-bg{
+  position:absolute;
+  inset:0;
+  border-radius:999px;
+  background:var(--c-white);
+  opacity:0;
+  z-index:-1;
+  box-shadow:0 6px 18px rgba(30,40,60,0.10);
+  transition:opacity .35s var(--ease);
+}
+.nav a.active .pill-bg{opacity:.9;}
+.nav a:hover{color:var(--c-text);}
+
+/* Apple-style UISwitch, glass-tinted, sits right of the nav pill */
+.theme-switch{
+  width:54px;
+  height:30px;
+  padding:3px;
+  flex-shrink:0;
+  border-radius:999px;
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  box-shadow:var(--shadow-soft);
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  transition:background .4s var(--ease), box-shadow .4s var(--ease);
+}
+.theme-switch-thumb{
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  background:linear-gradient(160deg,#ffffff,#eef1f6);
+  box-shadow:0 2px 6px rgba(20,30,50,0.25);
+  transform:translateX(0);
+  transition:transform .35s var(--ease), background .35s var(--ease);
+}
+.theme-switch.is-on{
+  background:linear-gradient(135deg,#3a4050,#20242e);
+  border-color:rgba(255,255,255,0.18);
+}
+.theme-switch.is-on .theme-switch-thumb{
+  transform:translateX(24px);
+  background:linear-gradient(160deg,#e9ecf3,#c9ceda);
+}
+
+@media (max-width:680px){
+  .nav a{padding:8px 12px;font-size:10.5px;}
+  .nav-wrap{top:14px;gap:8px;}
+  .theme-switch{width:46px;height:26px;}
+  .theme-switch-thumb{width:18px;height:18px;}
+  .theme-switch.is-on .theme-switch-thumb{transform:translateX(20px);}
+}
+
+/* =========================================================
+   3. SECTION SHELL
+========================================================= */
+section{
+  position:relative;
+  padding:160px 0;
+}
+.section-label{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+  letter-spacing:.22em;
+  font-weight:700;
+  color:var(--c-text-faint);
+  text-transform:uppercase;
+  margin-bottom:22px;
+}
+.section-label::before{
+  content:"";
+  width:7px;height:7px;border-radius:50%;
+  background:linear-gradient(135deg,#a9c4e8,#dfe6ef);
+  box-shadow:0 0 0 4px rgba(169,196,232,0.18);
+}
+
+/* generic glass panel */
+.glass-panel{
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-soft);
+}
+
+/* =========================================================
+   4. HERO — GREET
+========================================================= */
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  padding-top:140px;
+  padding-bottom:80px;
+}
+.hero-glass{
+  padding:64px 56px;
+  border-radius:var(--radius-lg);
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  box-shadow:var(--shadow-deep);
+}
+.hero-grid{
+  display:grid;
+  grid-template-columns:0.85fr 1.15fr;
+  gap:60px;
+  align-items:center;
+  width:100%;
+}
+.portrait-wrap{
+  position:relative;
+  display:flex;
+  justify-content:center;
+}
+.portrait-frame{
+  position:relative;
+  width:100%;
+  max-width:380px;
+  aspect-ratio:4/5;
+  border-radius:var(--radius-lg);
+  background:var(--glass-strong);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  box-shadow:var(--shadow-deep);
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.portrait-frame img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+/* placeholder block — swap the <img> src later, this shows until an image is added */
+.portrait-placeholder{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  color:var(--c-text-faint);
+  font-size:13px;
+  letter-spacing:.05em;
+  text-align:center;
+  padding:20px;
+}
+.portrait-placeholder svg{width:44px;height:44px;opacity:.5;fill:none;stroke:currentColor;stroke-width:1.6;}
+.portrait-frame::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(160deg, rgba(255,255,255,0.35), transparent 45%);
+  pointer-events:none;
+}
+
+.hero-text .eyebrow{
+  font-size:13px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--c-text-faint);
+  font-weight:700;
+  margin-bottom:18px;
+  display:block;
+}
+.hero-text h1{
+  font-size:clamp(40px, 6vw, 74px);
+  line-height:1.04;
+  font-weight:700;
+  letter-spacing:-0.02em;
+  background:linear-gradient(135deg,var(--c-text) 30%, var(--c-text-soft) 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.hero-text .subtitle{
+  margin-top:18px;
+  font-size:18px;
+  color:var(--c-text-soft);
+  font-weight:500;
+  letter-spacing:.02em;
+}
+.hero-text .quote{
+  margin-top:28px;
+  max-width:480px;
+  font-size:16px;
+  line-height:1.7;
+  color:var(--c-text-soft);
+}
+.hero-actions{
+  margin-top:38px;
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
+.btn{
+  padding:14px 28px;
+  border-radius:999px;
+  font-size:14px;
+  font-weight:600;
+  letter-spacing:.03em;
+  cursor:pointer;
+  border:1px solid var(--glass-border);
+  background:var(--glass-strong);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  box-shadow:var(--shadow-soft);
+  transition:transform .35s var(--ease), box-shadow .35s var(--ease), background .35s var(--ease);
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+.btn:hover{transform:translateY(-3px);box-shadow:var(--shadow-deep);}
+.btn.primary{
+  background:linear-gradient(135deg,#2b2f36,#454b56);
+  color:#fff;
+  border:1px solid rgba(0,0,0,0.1);
+}
+.btn.primary:hover{filter:brightness(1.08);}
+
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr;gap:40px;text-align:center;}
+  .hero-actions{justify-content:center;}
+  .hero-text .quote{margin-inline:auto;}
+  .hero-glass{padding:44px 28px;}
+}
+
+/* =========================================================
+   5. IMAGINATIONS
+========================================================= */
+.imaginations{
+  display:flex;
+  justify-content:center;
+}
+.imaginations-card{
+  position:relative;
+  z-index:1;
+  max-width:760px;
+  text-align:center;
+  padding:70px 56px;
+}
+.imaginations-card h2{
+  font-size:clamp(30px,4vw,46px);
+  font-weight:700;
+  letter-spacing:-0.01em;
+  margin-bottom:24px;
+}
+.imaginations-card p{
+  font-size:17px;
+  line-height:1.8;
+  color:var(--c-text-soft);
+}
+@media (max-width:680px){
+  .imaginations-card{padding:44px 26px;}
+}
+
+/* =========================================================
+   6. THOUGHTS GRID
+========================================================= */
+.thoughts-grid{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:22px;
+  position:relative;
+  z-index:1;
+  contain:layout paint;
+}
+@media (max-width:980px){ .thoughts-grid{grid-template-columns:repeat(2,1fr);} }
+@media (max-width:640px){ .thoughts-grid{grid-template-columns:1fr;} }
+
+/* Note: these cards intentionally skip backdrop-filter. A dozen blurred glass
+   layers on screen at once is the single heaviest GPU cost on this page, so
+   the grid uses a solid tinted background instead — same glass read, far
+   less compositing work. Blur is reserved for the few large single panels. */
+.thought-card{
+  padding:32px 28px;
+  border-radius:var(--radius-md);
+  background:linear-gradient(160deg, var(--glass-strong), var(--glass));
+  border:1px solid var(--glass-border);
+  box-shadow:var(--shadow-soft);
+  transition:transform .35s var(--ease), box-shadow .35s var(--ease), background .35s var(--ease);
+}
+.thought-card:hover{
+  transform:translateY(-6px);
+  box-shadow:var(--shadow-deep);
+  background:linear-gradient(160deg, var(--glass-strong), var(--glass-strong));
+}
+.thought-icon{
+  width:42px;height:42px;
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg, var(--glass-strong), var(--glass));
+  border:1px solid var(--glass-border);
+  margin-bottom:18px;
+}
+.thought-icon svg{width:20px;height:20px;stroke:var(--c-text-soft);fill:none;stroke-width:1.6;}
+.thought-card h3{font-size:17px;font-weight:700;margin-bottom:10px;letter-spacing:-0.01em;}
+.thought-card p{font-size:14.5px;line-height:1.65;color:var(--c-text-soft);}
+
+/* =========================================================
+   7. UNC — CHAOS
+========================================================= */
+.unc-section{
+  padding:180px 0;
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(700px 500px at 20% 20%, rgba(190,205,235,0.35), transparent 60%),
+    radial-gradient(800px 600px at 85% 80%, rgba(220,205,235,0.3), transparent 55%);
+}
+.unc-glass{
+  position:relative;
+  z-index:2;
+  max-width:720px;
+  margin:0 auto;
+  text-align:center;
+  padding:70px 50px;
+  border-radius:var(--radius-lg);
+  background:var(--glass);
+  border:1px solid var(--glass-border-soft);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  box-shadow:var(--shadow-deep);
+  transform:skewY(-0.4deg);
+}
+.unc-glass h2{
+  font-size:clamp(48px,7vw,96px);
+  font-weight:800;
+  letter-spacing:.04em;
+  background:linear-gradient(120deg,var(--c-text), #7a88a3, var(--c-text));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.unc-glass p{
+  margin-top:26px;
+  font-size:16.5px;
+  line-height:1.8;
+  color:var(--c-text-soft);
+}
+
+/* =========================================================
+   8. ABOUT
+========================================================= */
+.about-wrap{display:flex;justify-content:center;}
+.about-card{
+  max-width:720px;
+  text-align:center;
+  padding:70px 56px;
+  position:relative;
+  z-index:1;
+}
+.about-card h2{font-size:clamp(30px,4vw,46px);font-weight:700;margin-bottom:24px;letter-spacing:-0.01em;}
+.about-card p{font-size:16.5px;line-height:1.85;color:var(--c-text-soft);}
+.chips{
+  margin-top:34px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+}
+.chip{
+  padding:10px 20px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:.02em;
+  background:var(--glass-strong);
+  border:1px solid var(--glass-border);
+  color:var(--c-text-soft);
+  transition:transform .3s var(--ease), color .3s var(--ease);
+}
+.chip:hover{transform:translateY(-2px);color:var(--c-text);}
+@media (max-width:680px){.about-card{padding:44px 26px;}}
+
+/* =========================================================
+   9. FOOTER
+========================================================= */
+footer{
+  position:relative;
+  padding:90px 0 130px;
+  text-align:center;
+  z-index:1;
+}
+.footer-glass{
+  max-width:640px;
+  margin:0 auto;
+  padding:56px 40px;
+  border-radius:var(--radius-lg);
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  box-shadow:var(--shadow-soft);
+}
+.footer-sig{
+  font-size:clamp(28px,4vw,40px);
+  font-weight:800;
+  letter-spacing:.06em;
+  color:var(--c-text);
+}
+.footer-tag{
+  margin-top:12px;
+  font-size:13.5px;
+  color:var(--c-text-faint);
+  letter-spacing:.03em;
+}
+.social-row{
+  margin-top:28px;
+  display:flex;
+  gap:14px;
+  justify-content:center;
+}
+.social-dot{
+  width:40px;height:40px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--glass-strong);
+  border:1px solid var(--glass-border);
+  transition:transform .3s var(--ease);
+}
+.social-dot:hover{transform:translateY(-3px);}
+.social-dot svg{width:16px;height:16px;stroke:var(--c-text-soft);fill:none;stroke-width:1.6;}
+.footer-copy{
+  margin-top:30px;
+  font-size:12px;
+  color:var(--c-text-faint);
+}
+#year-live{display:inline-block;}
+
+/* =========================================================
+   10. MUSIC PLAYER — one icon, play/pause, that's it.
+   Sits in the nav row, opposite the theme switch. A bit more
+   glass depth than a flat circle: layered tint, a glossy top
+   highlight, and a soft glow ring that switches on while playing.
+========================================================= */
+.music-icon-btn{
+  position:relative;
+  width:92px;height:44px;
+  flex-shrink:0;
+  border-radius:18px;
+  padding:0 14px 0 12px;
+  background:linear-gradient(160deg, var(--glass-strong), var(--glass));
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(18px) saturate(140%);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);
+  box-shadow:var(--shadow-soft), inset 0 1px 1px rgba(255,255,255,0.5);
+  display:flex;align-items:center;justify-content:flex-start;
+  gap:10px;
+  overflow:hidden;
+  cursor:pointer;
+  transition:transform .3s var(--ease), box-shadow .3s var(--ease), background .3s var(--ease);
+}
+.music-icon-btn::before{
+  content:"";
+  position:absolute;
+  left:38px;
+  right:14px;
+  bottom:11px;
+  height:3px;
+  border-radius:999px;
+  background:linear-gradient(90deg, rgba(122,138,163,0.24), rgba(255,255,255,0.34));
+  box-shadow:inset 0 1px 1px rgba(20,30,50,0.08);
+  pointer-events:none;
+}
+.music-icon-btn::after{
+  content:"";
+  position:absolute;
+  top:-45%;
+  left:-20%;
+  width:140%;
+  height:100%;
+  background:linear-gradient(160deg, rgba(255,255,255,0.5), transparent 55%);
+  pointer-events:none;
+}
+.music-icon-glow{
+  position:absolute;
+  inset:-7px;
+  border-radius:18px;
+  background:radial-gradient(circle, rgba(59,110,240,0), transparent 70%);
+  transition:background .4s var(--ease);
+  pointer-events:none;
+}
+.music-icon-btn.is-playing .music-icon-glow{
+  background:radial-gradient(circle, rgba(59,110,240,0.32), transparent 70%);
+}
+.music-icon-btn:hover{transform:translateY(-1px) scale(1.03);}
+.music-icon-btn svg{
+  position:relative;
+  z-index:1;
+  width:18px;height:18px;
+  stroke:var(--c-text);
+  fill:var(--c-text);
+  stroke-width:1.2;
+  flex-shrink:0;
+}
+.music-icon-btn.is-playing svg{stroke:#3b6ef0;fill:#3b6ef0;}
+
+@media (max-width:680px){
+  .music-icon-btn{width:78px;height:38px;padding:0 12px 0 10px;border-radius:16px;}
+  .music-icon-btn::before{left:33px;right:12px;bottom:10px;}
+  .music-icon-btn svg{width:14px;height:14px;}
+}
+
+
+/* =========================================================
+   11. REDUCED MOTION
+========================================================= */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  .reveal{transition:opacity .4s linear;transform:none;}
+  * {animation-duration:0.001ms !important;}
+}
+
+/* =========================================================
+   12. LOADING SCREEN — name cycles through fonts, then reveals site
+========================================================= */
+html.is-loading{overflow:hidden;}
+.loading-screen{
+  position:fixed;
+  inset:0;
+  z-index:5000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(900px 700px at 8% -8%, var(--c-accent-1), transparent 58%),
+    radial-gradient(760px 560px at 28% 10%, rgba(255,255,255,0.18), transparent 60%),
+    radial-gradient(900px 700px at 100% 0%, var(--c-accent-2), transparent 55%),
+    radial-gradient(740px 540px at 82% 12%, rgba(170,200,255,0.14), transparent 60%),
+    radial-gradient(1000px 800px at 85% 95%, var(--c-accent-3), transparent 55%),
+    radial-gradient(760px 560px at 10% 86%, rgba(120,230,210,0.14), transparent 58%),
+    radial-gradient(800px 650px at 5% 90%, var(--c-accent-4), transparent 55%),
+    linear-gradient(180deg, var(--c-bg) 0%, var(--c-bg-2) 100%);
+  transition:opacity .6s var(--ease), visibility .6s var(--ease);
+}
+.loading-screen.is-hidden{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+.loading-name{
+  font-size:clamp(40px, 8vw, 88px);
+  font-weight:700;
+  letter-spacing:-0.01em;
+  color:var(--c-text);
+  will-change:transform, opacity;
+}
+.loading-name.settle{
+  transition:transform .5s var(--ease), opacity .5s var(--ease);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .loading-screen{transition:opacity .25s linear;}
+}
+</style>
+</head>
+<body>
+
+<div class="loading-screen" id="loadingScreen">
+  <span class="loading-name" id="loadingName">Saief</span>
+</div>
+
+<!-- ============ NAVIGATION ============ -->
+<div class="nav-wrap">
+  <button class="music-icon-btn" id="musicBtn" title="Play music" aria-label="Play music">
+    <span class="music-icon-glow"></span>
+    <svg id="musicIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+  </button>
+  <audio id="audio" preload="none" loop></audio>
+
+  <nav class="nav" id="mainNav">
+    <a href="#greet" data-section="greet"><span class="pill-bg"></span>GREET</a>
+    <a href="#imaginations" data-section="imaginations"><span class="pill-bg"></span>IMAGINATIONS</a>
+    <a href="#thoughts" data-section="thoughts"><span class="pill-bg"></span>THOUGHTS</a>
+    <a href="#unc" data-section="unc"><span class="pill-bg"></span>UNC</a>
+    <a href="#about" data-section="about"><span class="pill-bg"></span>ABOUT</a>
+  </nav>
+  <button class="theme-switch" id="themeSwitch" role="switch" aria-checked="false" aria-label="Toggle dark mode">
+    <span class="theme-switch-thumb"></span>
+  </button>
+</div>
+
+<!-- ============ SECTION 1 : GREET ============ -->
+<section id="greet" class="hero">
+  <div class="container">
+    <div class="hero-glass hero-grid">
+      <div class="portrait-wrap reveal">
+        <div class="portrait-frame">
+          <!-- Replace this block with: <img src="assets/portrait.jpg" alt="Saief Alom"> -->
+          <div class="portrait-placeholder">
+            <svg viewBox="0 0 24 24"><path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke-linecap="round"/><circle cx="12" cy="8" r="4"/></svg>
+            <span>Portrait image goes here<br>(swap this block for your photo)</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-text reveal">
+        <span class="eyebrow">Portfolio</span>
+        <h1>Hello, I'm<br>Saief Alom.</h1>
+        <p class="subtitle">Student • Developer • Dreamer</p>
+        <p class="quote">"I don't build websites to fill space.<br>
+        I build experiences that people remember.<br>
+        Every project begins as an imagination long before it becomes reality."</p>
+        <div class="hero-actions">
+          <a href="#imaginations" class="btn primary">Explore</a>
+          <a href="#thoughts" class="btn">Scroll Down</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 2 : IMAGINATIONS ============ -->
+<section id="imaginations" class="imaginations">
+  <div class="container">
+    <div class="imaginations-card glass-panel reveal" style="margin:0 auto;">
+      <span class="section-label" style="display:flex;justify-content:center;">Imaginations</span>
+      <h2>Imagination Shapes Reality</h2>
+      <p>Every innovation starts as an impossible thought.<br><br>
+      I enjoy imagining worlds that do not yet exist—interfaces that feel alive, technologies that solve invisible problems, and experiences that connect emotion with design.<br><br>
+      This website is only a small window into that endless imagination.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 3 : THOUGHTS ============ -->
+<section id="thoughts">
+  <div class="container">
+    <span class="section-label reveal">Thoughts</span>
+    <div class="thoughts-grid" id="thoughtsGrid"></div>
+  </div>
+</section>
+
+<!-- ============ SECTION 4 : UNC ============ -->
+<section id="unc" class="unc-section">
+  <div class="container">
+    <div class="unc-glass reveal">
+      <h2>UNC</h2>
+      <p>Some ideas refuse structure.<br>
+      Some dreams cannot be explained.<br>
+      Not everything has to make sense.<br>
+      Sometimes chaos is simply another language of creativity.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 5 : ABOUT ============ -->
+<section id="about" class="about-wrap">
+  <div class="container">
+    <div class="about-card glass-panel reveal" style="margin:0 auto;">
+      <span class="section-label" style="display:flex;justify-content:center;">About</span>
+      <h2>About Me</h2>
+      <p>My name is Saief Alom.<br><br>
+      I enjoy designing beautiful digital experiences while continuously learning programming, technology and science.<br><br>
+      I believe curiosity is more powerful than talent, and consistency is more valuable than motivation.<br><br>
+      Every day I try to become slightly better than yesterday.</p>
+      <div class="chips">
+        <span class="chip">Student</span>
+        <span class="chip">Bangladesh</span>
+        <span class="chip">Developer</span>
+        <span class="chip">Designer</span>
+        <span class="chip">AI Enthusiast</span>
+        <span class="chip">Lifelong Learner</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="footer-glass reveal">
+      <div class="footer-sig">SAIEF ALOM</div>
+      <div class="footer-tag">Designed with imagination. Built with passion.</div>
+      <div class="social-row">
+        <a class="social-dot" href="#" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.6 2.8 5.5 3.1 5.5 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4.1 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a class="social-dot" href="#" aria-label="Email"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+      <div class="footer-copy">© <span id="year-live"></span> Saief Alom. All rights imagined.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------------------------------------------------------
+     THEME TOGGLE — Apple-style switch, persists via localStorage
+  --------------------------------------------------------- */
+  (function(){
+    var stored = localStorage.getItem('theme');
+    if(stored === 'dark'){
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+    var switchEl = document.getElementById('themeSwitch');
+    function syncSwitch(){
+      var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      switchEl.classList.toggle('is-on', isDark);
+      switchEl.setAttribute('aria-checked', isDark ? 'true' : 'false');
+    }
+    syncSwitch();
+    switchEl.addEventListener('click', function(){
+      var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      if(isDark){
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      syncSwitch();
+    });
+  })();
+
+  /* ---------------------------------------------------------
+     LOADING SCREEN — "Saief" flips through several fonts in
+     quick succession, settles into the site's own type, then
+     fades to reveal the page.
+  --------------------------------------------------------- */
+  (function(){
+    document.documentElement.classList.add('is-loading');
+    var loadingScreen = document.getElementById('loadingScreen');
+    var loadingName = document.getElementById('loadingName');
+
+    if(reduceMotion){
+      document.documentElement.classList.remove('is-loading');
+      loadingScreen.classList.add('is-hidden');
+      return;
+    }
+
+    var fonts = [
+      "'Courier New', monospace",
+      "Georgia, serif",
+      "Impact, sans-serif",
+      "'Brush Script MT', cursive",
+      "'Times New Roman', serif",
+      "Verdana, sans-serif",
+      "-apple-system, 'SF Pro Display', sans-serif"
+    ];
+    var i = 0;
+    var flips = 0;
+    var maxFlips = 11;
+
+    var interval = setInterval(function(){
+      loadingName.style.fontFamily = fonts[i % fonts.length];
+      i++;
+      flips++;
+      if(flips >= maxFlips){
+        clearInterval(interval);
+        loadingName.style.fontFamily = "-apple-system, 'SF Pro Display', sans-serif";
+        loadingName.classList.add('settle');
+        setTimeout(function(){
+          loadingScreen.classList.add('is-hidden');
+          document.documentElement.classList.remove('is-loading');
+        }, 260);
+      }
+    }, 75);
+  })();
+
+  /* ---------------------------------------------------------
+     SCROLL REVEAL
+  --------------------------------------------------------- */
+  var revealEls = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          e.target.classList.add('is-visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, {threshold:0.15, rootMargin:'0px 0px -60px 0px'});
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+  }
+
+  /* ---------------------------------------------------------
+     NAV — active section + shrink on scroll
+  --------------------------------------------------------- */
+  var navLinks = document.querySelectorAll('.nav a');
+  var navEl = document.getElementById('mainNav');
+  var sections = document.querySelectorAll('section[id]');
+
+  var sectionObserver = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        var id = entry.target.id;
+        navLinks.forEach(function(link){
+          link.classList.toggle('active', link.dataset.section === id);
+        });
+      }
+    });
+  }, {threshold:0, rootMargin:'-45% 0px -45% 0px'});
+  sections.forEach(function(s){ sectionObserver.observe(s); });
+
+  var lastShrink = false;
+  window.addEventListener('scroll', function(){
+    var shouldShrink = window.scrollY > 40;
+    if(shouldShrink !== lastShrink){
+      navEl.classList.toggle('shrink', shouldShrink);
+      lastShrink = shouldShrink;
+    }
+  }, {passive:true});
+
+  /* ---------------------------------------------------------
+     THOUGHTS — 12 generated glass cards
+  --------------------------------------------------------- */
+  var thoughts = [
+    {t:"Dream Bigger", d:"The size of a dream should never be limited by the size of the room you are standing in.", icon:'<path d="M12 3v3M12 18v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M3 12h3M18 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/><circle cx="12" cy="12" r="4"/>'},
+    {t:"Learning", d:"Every book, every mistake, every conversation quietly rewires the way I see the world.", icon:'<path d="M4 19V6a2 2 0 012-2h6v16H6a2 2 0 01-2-2z"/><path d="M20 19V6a2 2 0 00-2-2h-6v16h6a2 2 0 002-2z"/>'},
+    {t:"Technology", d:"Technology is only meaningful when it disappears into the background and simply helps.", icon:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9h6v6H9z"/><path d="M2 9h2M2 15h2M20 9h2M20 15h2M9 2v2M15 2v2M9 20v2M15 20v2"/>'},
+    {t:"Creativity", d:"Creativity is intelligence having fun with problems no one asked it to solve.", icon:'<path d="M12 3a5 5 0 015 5c0 3-2 4-2 7H9c0-3-2-4-2-7a5 5 0 015-5z"/><path d="M9 20h6"/>'},
+    {t:"Physics", d:"The universe runs on rules simple enough to write on a napkin, yet vast enough to hold galaxies.", icon:'<circle cx="12" cy="12" r="1.4"/><ellipse cx="12" cy="12" rx="9" ry="3.6"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(120 12 12)"/>'},
+    {t:"Artificial Intelligence", d:"AI is not here to replace imagination — it is here to give it new hands.", icon:'<rect x="6" y="6" width="12" height="12" rx="2"/><circle cx="9.5" cy="10" r="1"/><circle cx="14.5" cy="10" r="1"/><path d="M9 15h6M12 2v4M12 18v4M4 9h2M4 15h2M18 9h2M18 15h2"/>'},
+    {t:"Nature", d:"Nature never rushes, yet everything it builds eventually finds its place.", icon:'<path d="M12 21c-4-1-7-4-7-9a7 7 0 0114 0c0 5-3 8-7 9z"/><path d="M12 21V9"/>'},
+    {t:"Curiosity", d:"Curiosity is the quiet voice that keeps asking \'why\' long after everyone else stopped.", icon:'<circle cx="10.5" cy="10.5" r="6.5"/><line x1="20" y1="20" x2="15.2" y2="15.2" stroke-linecap="round"/>'},
+    {t:"Design", d:"Good design is invisible; you only notice it when something suddenly feels effortless.", icon:'<path d="M14 3l7 7-9 9-4 1 1-4z"/><path d="M12.5 5.5l6 6"/>'},
+    {t:"Future", d:"The future does not arrive on its own — it is quietly assembled by people who imagine it first.", icon:'<path d="M4 15l5-5 4 4 7-7" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 6h5v5"/>'},
+    {t:"Failure", d:"Failure is only a dead end if you refuse to turn it into a doorway.", icon:'<path d="M4 4l16 16M20 4L4 20" stroke-linecap="round"/><circle cx="12" cy="12" r="9"/>'},
+    {t:"Purpose", d:"Purpose is what turns ordinary effort into something that quietly outlives the moment.", icon:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.6" fill="#4b5563"/>'}
+  ];
+  var grid = document.getElementById('thoughtsGrid');
+  var frag = document.createDocumentFragment();
+  thoughts.forEach(function(item, idx){
+    var card = document.createElement('div');
+    card.className = 'thought-card reveal';
+    card.style.transitionDelay = (idx % 3) * 0.06 + 's';
+    card.innerHTML =
+      '<div class="thought-icon"><svg viewBox="0 0 24 24">' + item.icon + '</svg></div>' +
+      '<h3>' + item.t + '</h3>' +
+      '<p>' + item.d + '</p>';
+    frag.appendChild(card);
+  });
+  grid.appendChild(frag);
+  // observe newly created cards
+  var newReveals = grid.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io2 = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('is-visible'); io2.unobserve(e.target); }
+      });
+    }, {threshold:0.1, rootMargin:'0px 0px -40px 0px'});
+    newReveals.forEach(function(el){ io2.observe(el); });
+  } else {
+    newReveals.forEach(function(el){ el.classList.add('is-visible'); });
+  }
+
+  /* ---------------------------------------------------------
+     FOOTER YEAR
+  --------------------------------------------------------- */
+  document.getElementById('year-live').textContent = new Date().getFullYear();
+
+  /* ---------------------------------------------------------
+     MUSIC PLAYER — single icon, click toggles play/pause.
+     Point this at wherever the real audio file lives in the repo
+     (currently the root, next to index.html). If it stops playing
+     again, check the file's actual size on GitHub first — an
+     empty or partial upload is the most common cause, not a code
+     problem.
+  --------------------------------------------------------- */
+  var SONG_PATH = "song.mp3";
+
+  var audio = document.getElementById('audio');
+  var musicBtn = document.getElementById('musicBtn');
+  var musicIcon = document.getElementById('musicIcon');
+
+  audio.volume = 0.75;
+  audio.src = SONG_PATH;
+
+  var ICON_PLAY = '<path d="M8 5v14l11-7z"/>';
+  var ICON_PAUSE = '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>';
+
+  musicBtn.addEventListener('click', function(){
+    if(audio.error){ return; }
+    if(audio.paused){
+      audio.play().catch(function(){ /* file missing or blocked — fail quietly */ });
+    } else {
+      audio.pause();
+    }
+  });
+
+  audio.addEventListener('play', function(){
+    musicIcon.innerHTML = ICON_PAUSE;
+    musicBtn.classList.add('is-playing');
+  });
+  audio.addEventListener('pause', function(){
+    musicIcon.innerHTML = ICON_PLAY;
+    musicBtn.classList.remove('is-playing');
+  });
+
+})();
+</script>
+</body>
+</html>
